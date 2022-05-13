@@ -220,7 +220,69 @@ def measureTime(fun, _list):
     start = time.time()
     fun(_list)
     end = time.time()
-    print('Time:', end - start)
+    print('Time:', end - start, ' seconds')
+
+#11  ---------------> Bubble Sort
+#O(n^2)
+def bubbleSort(uList):
+    comparations = 0
+    i = 0
+    for i in range(len(uList)-i):
+        for j in range(len(uList)-i-1):
+            temp = uList[j+1]
+            comparations += 1
+            if(uList[j]>uList[j+1]):
+                uList[j+1]= uList[j]
+                uList[j] = temp
+    #print('Comparations performed: ', comparations)
+
+def generateRandomList(limit):
+    uList = []
+    for i in range(limit):
+        uList.append(random.randint(1,limit))
+    return uList
+                
+def isSorted(sList):
+    sorted = True
+    for i in range(len(sList)-1):
+        if(sList[i]>sList[i+1]):
+            sorted = False;
+            break
+    return sorted
+
+def mergeSort(uArr):
+    return mergeAndSort(uArr, 0, len(uArr)-1)
+
+def mergeAndSort(uArr, lo, hi):
+
+    if(len(uArr)==1):
+        return uArr
+
+    mid = (lo+hi)//2
+    iArr = mergeAndSort(uArr[0:mid+1], 0, mid)
+    jArr = mergeAndSort(uArr[mid+1:hi+1], 0, hi-mid-1)
+ 
+    i = j = 0
+    iLen = len(iArr)
+    jLen = len(jArr)
+
+    mergeArr = []
+    while(len(mergeArr)<iLen+jLen):
+        if(iArr[i]<jArr[j]):
+            mergeArr.append(iArr[i])
+            if(i+1<iLen):
+                i=i+1
+            else:
+                mergeArr = mergeArr + jArr[j:jLen]
+                
+        else:
+            mergeArr.append(jArr[j])
+            if(j+1<jLen):
+                j=j+1
+            else:
+                mergeArr = mergeArr + iArr[i:iLen]
+
+    return mergeArr
 
 
 
