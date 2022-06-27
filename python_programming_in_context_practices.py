@@ -387,14 +387,10 @@ def drawRandomColors(width,height):
             img.setPixel(i,j, Pixel(r,g,b))
     
             
-    
-
-    
-    
     img.draw(win)
     img.save("RandomColors.gif")
 
-
+#18 ---------------> Draw a circle
 def drawCircle(diameter):
 
     width = diameter + 20
@@ -416,7 +412,29 @@ def drawCircle(diameter):
     img.save("RandomColors.gif")
             
     
+#19 ---------------> Negative Images
+def negativePixel(oldPixel):
+    newRed = 255 - oldPixel.getRed()
+    newGreen = 255 - oldPixel.getGreen()
+    newBlue = 255 - oldPixel.getBlue()
+    return Pixel(newRed, newGreen, newBlue)
     
+#20 ---------------> makeNegative
+def makeNegative(imageFile):
     
+    oldImage = FileImage(imageFile)
+    width = oldImage.getWidth()
+    height = oldImage.getHeight()
+    win = ImageWin(width*2,height, "Image Processing")
+    oldImage.draw(win)
+    newImage = EmptyImage(width, height)
     
-        
+    for i in range(height):
+        for j in range(width):
+            newPixel = negativePixel(oldImage.getPixel(j,i))
+            newImage.setPixel(j,i, newPixel)
+
+    newImage.setPosition(width+1,0)
+    newImage.draw(win)
+    win.exitOnClick()
+    
