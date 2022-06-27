@@ -1,6 +1,8 @@
 import random
 import time
 import math
+import urllib.request
+from image import *
 
 #1  ---------------> Draw Square:
 def drawSquare(myTurtle, sideLength):
@@ -249,7 +251,8 @@ def isSorted(sList):
             sorted = False;
             break
     return sorted
-
+#11  ---------------> Merge Sort
+#O(nlog(n))
 def mergeSort(uArr):
     return mergeAndSort(uArr, 0, len(uArr)-1)
 
@@ -284,7 +287,136 @@ def mergeAndSort(uArr, lo, hi):
 
     return mergeArr
 
+#12  ---------------> Insertion Sort
+def insertionSort(uArr):
+    for i in range(1, len(uArr)):
+        j = i
+        while uArr[j-1] > uArr[j] and j>0:
+            temp = uArr[j]
+            uArr[j] = uArr[j-1]
+            uArr[j-1] = temp
+            j-=1
 
 
+#13  ---------------> Print frequencies
+def printFrequencies(_list):
+    prev = _list[0]
+    counter = 1
+    for i in range(1, len(_list)):
+        foll = _list[i]
+        if(prev!=foll):
+            print(prev, ' ', counter)
+            counter  = 1
+            prev = foll
+            if(i+1==len(_list)):
+                print(prev, ' ', counter)
+        else:
+            counter = counter + 1
+            if(i+1==len(_list)):
+                print(prev, ' ', counter)
+                
+        
+#14  ---------------> Write document  
+def writeFile():
+    outfile = open("rainfallCm.txt", "w")
+    fileref = open("rainfall.txt", "r")
+    for line in fileref:
+        values = line.split()
+        outfile.write(values[0]+ " had "+ str(float(values[1])*2.54)+ "cms of rain \n")
+
+    outfile.close()
+    fileref.close()
+            
+#15  ---------------> First web scraping function
+def countHeadAndPrintBodyAndSave(url, name):
+    page = urllib.request.urlopen(url)
+    numHeadLines = 0
+    outfile = open(name+".txt", "w")
+
+    line = page.readline().decode('utf-8')
+    while '<head>' not in line:
+        line = page.readline().decode('utf-8')
+
+    line = page.readline().decode('utf-8')
+    while '</head>' not in line:
+        numHeadLines = numHeadLines + 1
+        line = page.readline().decode('utf-8')
+        
+    line = page.readline().decode('utf-8')
+    
+    while '<body>' not in line:
+        line = page.readline().decode('utf-8')
+
+    line = page.readline().decode('utf-8')
+    while '</body>' not in line and line != '' :
+        print(line[:-1])
+        outfile.write(line)
+        line = page.readline().decode('utf-8')
+
+    print('The number of lines of the header = ', numHeadLines)
+    page.close()
+    outfile.close()
+
+
+#16  ---------------> Get links from a web
+def getLinks(url):
+    page = urllib.request.urlopen(url)
+    line = page.readline().decode('utf-8')
+    links = []
+
+    while line != '':
+        if 'href' in line:
+            parts = line.split('href="')
+            if len(parts) >1:
+                link = parts[1].split('"')[0]
+                links.append(link)    
+        line = page.readline().decode('utf-8')
+    return links
+
+#17 ---------------> Image proccesing
+def drawRandomColors(width,height):
+    w = width
+    h = height
+    win = ImageWin(w,h,"RandomColors")
+    img = EmptyImage(w,h)
+    for i in range(h):
+        for j in range(w):
+            r = random.randint(0,255)
+            g = random.randint(0,255)
+            b = random.randint(0,255)
+            img.setPixel(i,j, Pixel(r,g,b))
+    
+            
+    
+
+    
+    
+    img.draw(win)
+    img.save("RandomColors.gif")
+
+
+def drawCircle(diameter):
+
+    width = diameter + 20
+    center = width/2
+    win = ImageWin(width,width,"Circle")
+    img = EmptyImage(width,width)
+    for i in range(width):
+        for j in range(width):
+          distance = math.sqrt((i-center)**2+(j-center)**2)
+          
+          if(distance<=(diameter/2)):
+            r = random.randint(0,255)
+            g = random.randint(0,255)
+            b = random.randint(0,255)
+            img.setPixel(i,j, Pixel(r,g,b))
+                  
+
+    img.draw(win)
+    img.save("RandomColors.gif")
+            
+    
+    
+    
     
         
