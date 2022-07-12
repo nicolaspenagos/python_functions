@@ -438,3 +438,51 @@ def makeNegative(imageFile):
     newImage.draw(win)
     win.exitOnClick()
     
+#21 ---------------> grayScale
+def getGrayPixel(oldPixel):
+    aveRGB = (oldPixel.getRed()+oldPixel.getGreen()+oldPixel.getBlue())//3
+    return Pixel(aveRGB,aveRGB,aveRGB)
+    
+def makeGrayScale(imageFile):
+    
+    oldImage = FileImage(imageFile)
+    width = oldImage.getWidth()
+    height = oldImage.getHeight()
+    win = ImageWin(width*2,height, "Image Processing")
+    oldImage.draw(win)
+    newImage = EmptyImage(width, height)
+
+    for i in range(height):
+        for j in range(width):
+            grayPixel = getGrayPixel(oldImage.getPixel(j,i))
+            newImage.setPixel(j,i, grayPixel)
+
+    newImage.setPosition(width+1,0)
+    newImage.draw(win)
+    win.exitOnClick()
+
+#22 ---------------> blackAndWhite
+def makeBlackAndWhite(imageFile):
+
+    oldImage = FileImage(imageFile)
+    width = oldImage.getWidth()
+    height = oldImage.getHeight()
+    win = ImageWin(width*2,height, "Image Processing")
+    oldImage.draw(win)
+    newImage = EmptyImage(width, height)
+
+    for i in range(height):
+        for j in range(width):
+            grayPixel = getGrayPixel(oldImage.getPixel(j,i))
+            newPixel = Pixel(255,255,255)
+            
+            if(grayPixel.getBlue()<100):
+                newPixel = Pixel(0,0,0)
+            newImage.setPixel(j,i, newPixel)
+            
+    newImage.setPosition(width+1,0)
+    newImage.draw(win)
+    win.exitOnClick()
+
+    
+    
