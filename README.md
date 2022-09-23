@@ -1,5 +1,5 @@
 # python_functions
-Unit testing, integration and REST services workshop
+Some of the practices of the book "Python programing in context"
 
 ## Made by
   <ul>
